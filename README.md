@@ -1,4 +1,4 @@
-## Getting Started
+## Description
 
 Employee Manage ment system is a simple java program made by swing and mysql
 
