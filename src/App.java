@@ -7,6 +7,8 @@ import java.text.*;
 import javax.swing.table.DefaultTableModel;
 
 class App extends JFrame {
+    ResultSet rss;
+	JButton[] button = new JButton[49];
     String[] columnNames = {"Emp_Id","Name","Company","Skill","Age","Date of Birth","Date of Joining","Salary"};
     String[][] data= new String[0][columnNames.length];
     String sname, scompany, sskill, sage, sdob, sdoj, ssalary, sempid;
@@ -45,6 +47,7 @@ class App extends JFrame {
         ctext.setBounds(360, 0, 300, 30);
         cJPanel.add(ctext);
 
+
         nJPanel = new JPanel();
         nJPanel.setLayout(null);
         nJPanel.setBounds(0, 140, 670, 50);
@@ -58,6 +61,14 @@ class App extends JFrame {
         ntext.setFont(new Font("Arial", Font.BOLD, 15));
         ntext.setBounds(360, 0, 300, 30);
         nJPanel.add(ntext);
+        ntext.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if(!(Character.isAlphabetic(c) || (c==KeyEvent.VK_BACK_SPACE) || (c==KeyEvent.VK_SPACE))) {
+                    e.consume();  // ignore the event if it's not an alphabet
+                }
+            }
+         });
 
         jPanel = new JPanel();
         jPanel.setLayout(null);
@@ -73,6 +84,8 @@ class App extends JFrame {
         jtext.setFont(new Font("Arial", Font.BOLD, 15));
         jPanel.add(jtext);
 
+        
+
         aJPanel = new JPanel();
         aJPanel.setLayout(null);
         aJPanel.setBounds(0, 260, 670, 50);
@@ -86,6 +99,15 @@ class App extends JFrame {
         atext.setBounds(360, 0, 300, 30);
         atext.setFont(new Font("Arial", Font.BOLD, 15));
         aJPanel.add(atext);
+
+        atext.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                     e.consume();  // if it's not a number, ignore the event
+                }
+            }
+         });
 
         sJPanel = new JPanel();
         sJPanel.setLayout(null);
@@ -101,6 +123,15 @@ class App extends JFrame {
         ttext.setFont(new Font("Arial", Font.BOLD, 15));
         sJPanel.add(ttext);
 
+        ttext.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if(!(Character.isAlphabetic(c) || (c==KeyEvent.VK_BACK_SPACE) || c==KeyEvent.VK_SPACE)) {
+                    e.consume();  // ignore the event if it's not an alphabet
+                }
+            }
+         });
+
         sPanel = new JPanel();
         sPanel.setLayout(null);
         sPanel.setBounds(0, 380, 670, 50);
@@ -114,6 +145,15 @@ class App extends JFrame {
         stext.setBounds(360, 0, 300, 30);
         stext.setFont(new Font("Arial", Font.BOLD, 15));
         sPanel.add(stext);
+
+        stext.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                     e.consume();  // if it's not a number, ignore the event
+                }
+            }
+         });
 
         bJPanel = new JPanel();
         bJPanel.setLayout(null);
@@ -142,6 +182,15 @@ class App extends JFrame {
         itext.setBounds(360, 0, 300, 30);
         itext.setFont(new Font("Arial", Font.BOLD, 15));
         iPanel.add(itext);
+
+        itext.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+                     e.consume();  // if it's not a number, ignore the event
+                }
+            }
+         });
 
         button_bar = new JPanel();
         button_bar.setLayout(null);
@@ -180,6 +229,7 @@ class App extends JFrame {
 
         table = new JTable(model);
         model.setColumnIdentifiers(columnNames);
+        
 
         JScrollPane js=new JScrollPane(table);
         js.setBounds(680, 80, 560, 250);
@@ -193,7 +243,7 @@ class App extends JFrame {
         ta.setText("\nSearched EMPLOYEE Details:");
 
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Test?" + "user=root&password=password");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Test?" + "user=root&password=Zatch@11");
             statement = (Statement) conn.createStatement();
             System.out.println("Connected");
             String sql;
@@ -238,45 +288,82 @@ class App extends JFrame {
 
         submit.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                sname = ntext.getText().toString();
-                scompany = ctext.getText().toString();
-                sskill = ttext.getText().toString();
-                sage = atext.getText().toString();
-                sdob = btext.getText().toString();
-                sdoj = jtext.getText().toString();
-                ssalary = stext.getText().toString();
-                sempid = itext.getText().toString();
-
-              String sql = "INSERT INTO Employee VALUES ('"+scompany+"', '"+sname+"', '"+sskill+"', "+sage+",'"+sdob+"','"+sdoj+"',"+ssalary+","+sempid+")";
-              try {
-                statement.executeUpdate(sql);
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
-            while(model.getRowCount() > 0){
-                model.removeRow(0);
-            }
-
-            
-            sql = "select *from Test.Employee";
-            try (ResultSet rs = statement.executeQuery(sql)) {
-                while(rs.next()){
-                    sname = rs.getString(2);
-                    scompany= rs.getString(1);
-                    sskill = rs.getString(3);
-                    sage = rs.getString(4);
-                    sdob = rs.getString(5);
-                    sdoj = rs.getString(6);
-                    ssalary = rs.getString(7);
-                    sempid = rs.getString(8);
-                    String[] row = {sempid,sname,scompany,sskill,sage,sdob,sdoj,ssalary};
-                    model.addRow(row);
-                    
+                if(ntext.getText().isEmpty() || ctext.getText().isEmpty() || ttext.getText().isEmpty() || atext.getText().isEmpty() || btext.getText().isEmpty() || jtext.getText().isEmpty() || stext.getText().isEmpty() || itext.getText().isEmpty()){
+                    JOptionPane.showMessageDialog(null, "Enter value for all data");
                 }
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
-            JOptionPane.showMessageDialog(null, "Data Added");
+                else{
+
+
+                    sname = ntext.getText().toString();
+                    scompany = ctext.getText().toString();
+                    sskill = ttext.getText().toString();
+                    sage = atext.getText().toString();
+                    sdob = btext.getText().toString();
+                    sdoj = jtext.getText().toString();
+                    ssalary = stext.getText().toString();
+                    sempid = itext.getText().toString();
+
+                    String selectQuery = "select * from Employee where e_id ='"+sempid+"'";
+                    System.out.println(selectQuery);
+                    
+                    try {
+                        rss = statement.executeQuery(selectQuery);
+                    } catch (SQLException e2) {
+    
+                        e2.printStackTrace();
+                    }
+                    
+
+                    try {
+                        if(rss.next())
+                        {
+                            JOptionPane.showMessageDialog(null, "Data Already present");
+                            
+                        }
+                        else
+                        {
+                            String sql = "INSERT INTO Employee VALUES ('"+scompany+"', '"+sname+"', '"+sskill+"', "+sage+",'"+sdob+"','"+sdoj+"',"+ssalary+","+sempid+")";
+                            try {
+                                statement.executeUpdate(sql);
+                            } catch (SQLException e1) {
+                                e1.printStackTrace();
+                            }
+                            while(model.getRowCount() > 0){
+                                model.removeRow(0);
+                            }
+   
+            
+                            sql = "select *from Test.Employee";
+                            try (ResultSet rs = statement.executeQuery(sql)) {
+                                while(rs.next()){
+                                    sname = rs.getString(2);
+                                    scompany= rs.getString(1);
+                                    sskill = rs.getString(3);
+                                    sage = rs.getString(4);
+                                    sdob = rs.getString(5);
+                                    sdoj = rs.getString(6);
+                                    ssalary = rs.getString(7);
+                                    sempid = rs.getString(8);
+                                    String[] row = {sempid,sname,scompany,sskill,sage,sdob,sdoj,ssalary};
+                                    model.addRow(row);
+                                    
+                                }
+                            } catch (SQLException e1) {
+                                e1.printStackTrace();
+                            }
+                            JOptionPane.showMessageDialog(null, "Data Added");
+                        }
+                    } catch (HeadlessException e1) {
+                        
+                        e1.printStackTrace();
+                    } catch (SQLException e1) {
+                        
+                        e1.printStackTrace();
+                    }
+
+                   
+                        }
+                
             
             }
         });
@@ -415,6 +502,8 @@ class App extends JFrame {
 
         edit.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
+            
+           
             String key = itext.getText().toString();
                  
 
