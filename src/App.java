@@ -511,15 +511,7 @@ class App extends JFrame {
                }else {
                   System.out.println("Not Selected");
                }
-               itext.setEditable(true);
-                  itext.setText("");
-                  ntext.setText("");
-                  ctext.setText("");
-                  ttext.setText("");
-                  atext.setText("");
-                 Bdate.setCalendar(null);
-                 Jdate.setCalendar(null);
-                  stext.setText("");
+               
             }
          });
 
