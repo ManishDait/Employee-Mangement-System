@@ -4,11 +4,16 @@ import java.io.*;
 import javax.swing.*;
 import java.sql.*;
 import java.text.*;
+import java.util.Date;
 import javax.swing.table.DefaultTableModel;
+import com.toedter.calendar.JDateChooser;
 
 class App extends JFrame {
+    Date date;
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     ResultSet rss;
-	JButton[] button = new JButton[49];
+    JDateChooser Bdate = new JDateChooser();
+    JDateChooser Jdate = new JDateChooser();
     String[] columnNames = {"Emp_Id","Name","Company","Skill","Age","Date of Birth","Date of Joining","Salary"};
     String[][] data= new String[0][columnNames.length];
     String sname, scompany, sskill, sage, sdob, sdoj, ssalary, sempid;
@@ -18,7 +23,7 @@ class App extends JFrame {
     DateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy hh:mm a");
     JTextArea ta;
     JLabel title, name, company, age, skill, dob, doj, salary, ialary, lbackup;
-    JTextField ntext, ctext, atext, jtext, btext, ttext, stext,itext;
+    JTextField ntext, ctext, atext, ttext, stext,itext;
     JButton submit, edit, delect, backup, search, cancel;
     JTable table;
     JPanel nJPanel, cJPanel, aJPanel, sJPanel, bJPanel, jPanel, sPanel, button_bar, iPanel;
@@ -80,10 +85,10 @@ class App extends JFrame {
         doj.setBounds(10, 0, 200, 40);
         jPanel.add(doj);
 
-        jtext = new JTextField();
-        jtext.setBounds(360, 0, 300, 30);
-        jtext.setFont(new Font("Arial", Font.BOLD, 15));
-        jPanel.add(jtext);
+       
+        Jdate.setBounds(360, 0, 300, 30);
+        Jdate.setFont(new Font("Arial", Font.BOLD, 15));
+        jPanel.add(Jdate);
 
         
 
@@ -168,10 +173,9 @@ class App extends JFrame {
         dob.setBounds(10, 0, 200, 40);
         bJPanel.add(dob);
 
-        btext = new JTextField();
-        btext.setBounds(360, 0, 300, 30);
-        btext.setFont(new Font("Arial", Font.BOLD, 15));
-        bJPanel.add(btext);
+        Bdate.setBounds(360, 0, 300, 30);
+        Bdate.setFont(new Font("Arial", Font.BOLD, 15));
+        bJPanel.add(Bdate);
 
         iPanel = new JPanel();
         iPanel.setLayout(null);
@@ -304,8 +308,8 @@ class App extends JFrame {
                   ctext.setText("");
                   ttext.setText("");
                   atext.setText("");
-                  btext.setText("");
-                  jtext.setText("");
+                  Bdate.setCalendar(null);
+                  Jdate.setCalendar(null);
                   stext.setText("");
                 
             
@@ -315,7 +319,7 @@ class App extends JFrame {
 
         submit.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                if(ntext.getText().isEmpty() || ctext.getText().isEmpty() || ttext.getText().isEmpty() || atext.getText().isEmpty() || btext.getText().isEmpty() || jtext.getText().isEmpty() || stext.getText().isEmpty() || itext.getText().isEmpty()){
+                if(ntext.getText().isEmpty() || ctext.getText().isEmpty() || ttext.getText().isEmpty() || atext.getText().isEmpty() || simpleDateFormat.format(Bdate.getDate()).isEmpty() || simpleDateFormat.format(Jdate.getDate()).isEmpty() || stext.getText().isEmpty() || itext.getText().isEmpty()){
                     JOptionPane.showMessageDialog(null, "Enter value for all data");
                 }
                 else{
@@ -325,8 +329,8 @@ class App extends JFrame {
                     scompany = ctext.getText().toString();
                     sskill = ttext.getText().toString();
                     sage = atext.getText().toString();
-                    sdob = btext.getText().toString();
-                    sdoj = jtext.getText().toString();
+                    sdob = simpleDateFormat.format(Bdate.getDate());
+                    sdoj = simpleDateFormat.format(Jdate.getDate());
                     ssalary = stext.getText().toString();
                     sempid = itext.getText().toString();
 
@@ -397,8 +401,8 @@ class App extends JFrame {
                   ctext.setText("");
                   ttext.setText("");
                   atext.setText("");
-                  btext.setText("");
-                  jtext.setText("");
+                  Bdate.setCalendar(null);
+                  Jdate.setCalendar(null);
                   stext.setText("");
                 
             
@@ -485,9 +489,20 @@ class App extends JFrame {
                         ctext.setText(scompany);
                         ttext.setText(sskill);
                         atext.setText(sage);
-                        btext.setText(sdob);
-                        jtext.setText(sdoj);
                         stext.setText(ssalary);
+                        try {
+                            date = (Date) new SimpleDateFormat("yyyy-MM-dd").parse(sdob);
+                        } catch (ParseException e2) {
+                            e2.printStackTrace();
+                        }
+                            Bdate.setDate(date);
+                            try {
+                                date = (Date) new SimpleDateFormat("yyyy-MM-dd").parse(sdoj);
+                            } catch (ParseException e2) {
+                                e2.printStackTrace();
+                            }
+                                Jdate.setDate(date);
+                        
                         
                     }
                 } catch (SQLException e1) {
@@ -502,8 +517,8 @@ class App extends JFrame {
                   ctext.setText("");
                   ttext.setText("");
                   atext.setText("");
-                  btext.setText("");
-                  jtext.setText("");
+                 Bdate.setCalendar(null);
+                 Jdate.setCalendar(null);
                   stext.setText("");
             }
          });
@@ -551,8 +566,8 @@ class App extends JFrame {
                   ctext.setText("");
                   ttext.setText("");
                   atext.setText("");
-                  btext.setText("");
-                  jtext.setText("");
+                  Bdate.setCalendar(null);
+                  Jdate.setCalendar(null);
                   stext.setText("");
             }
         });
@@ -587,14 +602,14 @@ class App extends JFrame {
                 e1.printStackTrace();
             }
 
-            sql = "UPDATE Employee SET dob='"+btext.getText().toString()+"' WHERE e_id='"+key+"'";
+            sql = "UPDATE Employee SET dob='"+simpleDateFormat.format(Bdate.getDate())+"' WHERE e_id='"+key+"'";
               try {
                 statement.executeUpdate(sql);
             } catch (SQLException e1) {
                 e1.printStackTrace();
             }
 
-            sql = "UPDATE Employee SET doj='"+jtext.getText().toString()+"' WHERE e_id='"+key+"'";
+            sql = "UPDATE Employee SET doj='"+simpleDateFormat.format(Jdate.getDate())+"' WHERE e_id='"+key+"'";
               try {
                 statement.executeUpdate(sql);
             } catch (SQLException e1) {
@@ -644,8 +659,8 @@ class App extends JFrame {
                   ctext.setText("");
                   ttext.setText("");
                   atext.setText("");
-                  btext.setText("");
-                  jtext.setText("");
+                  Bdate.setCalendar(null);
+                  Jdate.setCalendar(null);
                   stext.setText("");
             }
         });
@@ -662,9 +677,21 @@ class App extends JFrame {
                   ctext.setText(table.getValueAt(row, 2).toString());
                   ttext.setText(table.getValueAt(row, 3).toString());
                   atext.setText(table.getValueAt(row, 4).toString());
-                  btext.setText(table.getValueAt(row, 5).toString());
-                  jtext.setText(table.getValueAt(row, 6).toString());
                   stext.setText(table.getValueAt(row, 7).toString());
+                  
+                try {
+                    date = (Date) new SimpleDateFormat("yyyy-MM-dd").parse(table.getValueAt(row, 5).toString());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                    Bdate.setDate(date);
+                    try {
+                        date = (Date) new SimpleDateFormat("yyyy-MM-dd").parse(table.getValueAt(row, 6).toString());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                       Jdate.setDate(date);
+                  
                   itext.setEditable(false);
                }
             }
