@@ -19,7 +19,7 @@ class App extends JFrame {
     JTextArea ta;
     JLabel title, name, company, age, skill, dob, doj, salary, ialary, lbackup;
     JTextField ntext, ctext, atext, jtext, btext, ttext, stext,itext;
-    JButton submit, edit, delect, backup, search;
+    JButton submit, edit, delect, backup, search, cancel;
     JTable table;
     JPanel nJPanel, cJPanel, aJPanel, sJPanel, bJPanel, jPanel, sPanel, button_bar, iPanel;
     
@@ -65,7 +65,8 @@ class App extends JFrame {
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
                 if(!(Character.isAlphabetic(c) || (c==KeyEvent.VK_BACK_SPACE) || (c==KeyEvent.VK_SPACE))) {
-                    e.consume();  // ignore the event if it's not an alphabet
+                    e.consume(); 
+                    JOptionPane.showMessageDialog(null, "Enter Alphabet only");
                 }
             }
          });
@@ -104,7 +105,8 @@ class App extends JFrame {
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
                 if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
-                     e.consume();  // if it's not a number, ignore the event
+                     e.consume();
+                     JOptionPane.showMessageDialog(null, "Enter Numbers only");
                 }
             }
          });
@@ -127,7 +129,8 @@ class App extends JFrame {
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
                 if(!(Character.isAlphabetic(c) || (c==KeyEvent.VK_BACK_SPACE) || c==KeyEvent.VK_SPACE)) {
-                    e.consume();  // ignore the event if it's not an alphabet
+                    e.consume(); 
+                    JOptionPane.showMessageDialog(null, "Enter Alphabet only");
                 }
             }
          });
@@ -150,7 +153,8 @@ class App extends JFrame {
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();
                 if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
-                     e.consume();  // if it's not a number, ignore the event
+                     e.consume();  
+                     JOptionPane.showMessageDialog(null, "Enter Numbers only");
                 }
             }
          });
@@ -215,6 +219,11 @@ class App extends JFrame {
         backup.setText("Backup");
         backup.setBounds(788, 0, 100, 30);
         button_bar.add(backup);
+
+        cancel = new JButton();
+        cancel.setText("Cancel");
+        cancel.setBounds(912, 0, 100, 30);
+        button_bar.add(cancel);
 
         search = new JButton();
         search.setText("Search");
@@ -285,6 +294,24 @@ class App extends JFrame {
             System.out.println("An error occurred.");
             E.printStackTrace();
           }
+
+
+         cancel.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                  itext.setEditable(true);
+                  itext.setText("");
+                  ntext.setText("");
+                  ctext.setText("");
+                  ttext.setText("");
+                  atext.setText("");
+                  btext.setText("");
+                  jtext.setText("");
+                  stext.setText("");
+                
+            
+            }
+        });
+
 
         submit.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
@@ -363,6 +390,16 @@ class App extends JFrame {
 
                    
                         }
+
+                  itext.setEditable(true);
+                  itext.setText("");
+                  ntext.setText("");
+                  ctext.setText("");
+                  ttext.setText("");
+                  atext.setText("");
+                  btext.setText("");
+                  jtext.setText("");
+                  stext.setText("");
                 
             
             }
@@ -459,6 +496,15 @@ class App extends JFrame {
                }else {
                   System.out.println("Not Selected");
                }
+               itext.setEditable(true);
+                  itext.setText("");
+                  ntext.setText("");
+                  ctext.setText("");
+                  ttext.setText("");
+                  atext.setText("");
+                  btext.setText("");
+                  jtext.setText("");
+                  stext.setText("");
             }
          });
 
@@ -497,6 +543,17 @@ class App extends JFrame {
                 e1.printStackTrace();
             }
             JOptionPane.showMessageDialog(null, "Data Removed");
+
+
+            itext.setEditable(true);
+                  itext.setText("");
+                  ntext.setText("");
+                  ctext.setText("");
+                  ttext.setText("");
+                  atext.setText("");
+                  btext.setText("");
+                  jtext.setText("");
+                  stext.setText("");
             }
         });
 
@@ -507,12 +564,7 @@ class App extends JFrame {
             String key = itext.getText().toString();
                  
 
-            String sql = "UPDATE Employee SET e_name='"+ntext.getText().toString()+"' WHERE e_id='"+key+"'";
-              try {
-                statement.executeUpdate(sql);
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
+            String sql;
             
             sql = "UPDATE Employee SET e_name='"+ntext.getText().toString()+"' WHERE e_id='"+key+"'";
               try {
@@ -585,6 +637,16 @@ class App extends JFrame {
             } catch (SQLException e1) {
                 e1.printStackTrace();
             }
+            itext.setEditable(true);
+
+                  itext.setText("");
+                  ntext.setText("");
+                  ctext.setText("");
+                  ttext.setText("");
+                  atext.setText("");
+                  btext.setText("");
+                  jtext.setText("");
+                  stext.setText("");
             }
         });
 
@@ -603,6 +665,7 @@ class App extends JFrame {
                   btext.setText(table.getValueAt(row, 5).toString());
                   jtext.setText(table.getValueAt(row, 6).toString());
                   stext.setText(table.getValueAt(row, 7).toString());
+                  itext.setEditable(false);
                }
             }
          });
