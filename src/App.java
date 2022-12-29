@@ -256,7 +256,7 @@ class App extends JFrame {
         ta.setText("\nSearched EMPLOYEE Details:");
 
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Test?" + "user=root&password=Zatch@11");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Test?" + "user=username&password=password");
             statement = (Statement) conn.createStatement();
             System.out.println("Connected");
             String sql;

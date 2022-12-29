@@ -4,6 +4,8 @@
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
         "/home/manish/Downloads/mysql-connector-java-8.0.28/mysql-connector-java-8.0.28.jar",
-        "/home/manish/Downloads/jar_files/jcalendar-tz-1.3.3-4.jar"
+        "/home/manish/Downloads/jar_files/jcalendar-tz-1.3.3-4.jar",
+        "/home/manish/Java/Jar/jcalender1.3.3-4/jcalendar-tz-1.3.3-4.jar",
+        "/home/manish/Java/Jar/mysql-connector-java-8.0.28/mysql-connector-java-8.0.28.jar"
     ]
 }

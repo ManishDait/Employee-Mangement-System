@@ -5,11 +5,14 @@
 
 This project is created using java swing package for gui and mysql as database
 
-### Folder Structure
-
 The project contains two folders by default, where:
 
-- `src`: the folder to maintain sources
--  `sql`: the folder to create sql table
+- `src`: the folder contain source code
+- `lib`: the folder contain reference library
+- `sql`: the folder to create sql table </br>
 
+
+<img src="img/img1.png"> <br/>
+
+<img src="img/img1.png"> <br/>
 
