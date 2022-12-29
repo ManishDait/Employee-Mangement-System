@@ -1,10 +1,13 @@
-## Description
+# Employee-Mangement-System
 
-Employee Manage ment system is a simple java program made by swing and mysql
 
-## Folder Structure
+### Employee Management system is a simple java program made by using swing and mysql
 
-The workspace contains two folders by default, where:
+This project is created using java swing package for gui and mysql as database
+
+### Folder Structure
+
+The project contains two folders by default, where:
 
 - `src`: the folder to maintain sources
 - `lib`: the folder to maintain dependencies
